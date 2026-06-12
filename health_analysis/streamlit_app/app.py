@@ -10,106 +10,124 @@ load_dotenv()
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# Page Configuration with Medical Branding
+# Page Configuration - Clean & Professional
 st.set_page_config(
-    page_title="Hana | Blood Work Analyzer", 
+    page_title="Blood Work Analyzer", 
     page_icon="🩸",
     layout="wide"
 )
 
-# Custom Theme Variables for a Premium Dark/Modern Aesthetic
+# Custom Enterprise-grade UI Styling
 st.markdown("""
 <style>
-    .main-title {
-        font-size: 2.8rem !important;
-        font-weight: 800 !important;
-        background: linear-gradient(45deg, #FF4B4B, #FF8F8F);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 0.5rem !important;
+    /* Global font sizing and cleaner text spacing */
+    .reportview-container .main .block-container {
+        padding-top: 2rem !important;
     }
-    .subtitle {
-        color: #A0AEC0;
-        font-size: 1.1rem;
-        margin-bottom: 2.5rem !important;
+    .header-title {
+        font-size: 2.4rem !important;
+        font-weight: 700 !important;
+        color: #FFFFFF;
+        margin-bottom: 0.2rem !important;
+        display: flex;
+        align-items: center;
+        gap: 12px;
     }
-    div[data-testid="stExpander"] {
-        border-radius: 10px !important;
-        background-color: #1A202C !important;
+    .header-subtitle {
+        color: #718096;
+        font-size: 1rem;
+        margin-bottom: 2rem !important;
+    }
+    /* Polish text area container */
+    .stTextArea textarea {
+        border-radius: 8px !important;
+        border: 1px solid #3F444E !important;
+        background-color: #1A1D24 !important;
+        color: #E2E8F0 !important;
+    }
+    /* Polish tab headers */
+    button[data-baseweb="tab"] {
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        padding-bottom: 10px !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR: Context & Compliance ---
+# --- SIDEBAR: Clinical Guardrails & Context ---
 with st.sidebar:
-    st.markdown("### 🧬 About Hana")
-    st.write("This AI-powered assistant extracts clinical markers from raw laboratory text and maps them directly to actionable lifestyle adjustments and traditional dietary wisdom.")
-    
+    st.markdown("### 📋 System Instructions")
+    st.info(
+        "1. Paste the raw text copy of a pathology lab report into the entry panel.\n"
+        "2. Ensure numerical results and baseline reference intervals are visible.\n"
+        "3. Click 'Run Analysis' to initialize data parsing."
+    )
     st.markdown("---")
-    st.caption("⚠️ **Clinical Disclaimer:** This tool is for educational and wellness tracking purposes only. It does not replace professional medical advice, diagnosis, or treatment plans.")
+    st.caption("⚠️ **Disclaimer:** This automated engine provides biomarker mapping and nutritional insights for educational purposes only. Results must be verified by a qualified healthcare professional.")
 
-# --- MAIN HEADER ---
-st.markdown('<h1 class="main-title">🩸 Hana</h1>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">AI-Driven Biomarker Extraction & Personalized Indian Nutrition Mapping</p>', unsafe_allow_html=True)
+# --- CLEAN HEADER ---
+st.markdown('<div class="header-title">🩸 Blood Work Analyzer</div>', unsafe_allow_html=True)
+st.markdown('<div class="header-subtitle">Clinical Biomarker Parsing & Tailored Indian Nutritional Frameworks</div>', unsafe_allow_html=True)
 
 llm = ChatGoogleGenerativeAI(model="gemma-4-31b-it")
 
+# Two-column dynamic split
 left_col, right_col = st.columns([1, 1], gap="large")
 
 with left_col:
-    st.subheader("📋 Patient Report Entry")
+    st.markdown("### 📥 Input Report Data")
     
-    # UI Upgrade: One-click Sample Injector for easier testing/demonstrations
-    with st.expander("💡 Need a sample report to test?"):
+    # Minimalist Sample Data Option
+    with st.expander("📝 Load Sample Laboratory Data (For Testing)"):
         sample_text = (
-            "CBC REPORT\n"
+            "COMPLETE BLOOD COUNT & METABOLIC PANEL\n"
             "Hemoglobin: 11.2 g/dL | Reference: 13.0 - 17.0 (LOW)\n"
             "Total WBC Count: 7,500 /uL | Reference: 4,000 - 11,000 (NORMAL)\n"
-            "Vitamin D3: 18 ng/mL | Reference: 30.0 - 100.0 (HIGHLY DEFICIENT)\n"
+            "Vitamin D3: 18 ng/mL | Reference: 30.0 - 100.0 (DEFICIENT)\n"
             "Serum Cholesterol: 245 mg/dL | Reference: < 200 (HIGH)"
         )
-        st.code(sample_text, language="text")
-        if st.button("Inject Sample Data", use_container_width=True):
+        st.text(sample_text)
+        if st.button("Populate Input Field", use_container_width=True):
             st.session_state["blood_report_input"] = sample_text
             st.rerun()
 
-    # Bind text area to session state so the injector button works cleanly
+    # Session state handling for input continuity
     if "blood_report_input" not in st.session_state:
         st.session_state["blood_report_input"] = ""
 
     blood_report = st.text_area(
-        label="Paste your report below",
-        height=350,
+        label="Paste your report data",
+        height=380,
         value=st.session_state["blood_report_input"],
-        placeholder="Paste your raw laboratory data text here (including reference metrics)...",
+        placeholder="Paste plain text lab data here...",
         label_visibility="collapsed"
     )
     
-    analyze_clicked = st.button("🚀 Run Diagnostic Review", type="primary", use_container_width=True)
+    analyze_clicked = st.button("⚙️ Run Analysis", type="primary", use_container_width=True)
 
 with right_col:
-    st.subheader("📊 Analytical Insights")
+    st.markdown("### 📊 Generated Assessment")
     
-    # UI Upgrade: Modern dynamic tabs instead of stacked boxes
-    tab1, tab2 = st.tabs(["❤️ Health Summary", "🥗 Tailored Indian Diet Plan"])
+    # Clean, distraction-free UI tabs
+    tab1, tab2 = st.tabs(["Clinical Summary", "Dietary Strategy"])
     
     with tab1:
         health_container = st.container(border=True)
         health_placeholder = health_container.empty()
-        health_placeholder.info("Awaiting report submission. The summary of physiological markers will populate here.")
+        health_placeholder.caption("Awaiting data input. Physiological summaries will populate here.")
         
     with tab2:
         diet_container = st.container(border=True)
         diet_placeholder = diet_container.empty()
-        diet_placeholder.info("Awaiting report submission. Customized dietary guardrails will populate here.")
+        diet_placeholder.caption("Awaiting data input. Practical Indian food guidelines will populate here.")
 
-# --- CORE EXECUTION LOGIC (100% Unchanged) ---
+# --- ENGINE EXECUTION LOGIC (100% Unchanged) ---
 if analyze_clicked:
     if not blood_report.strip():
         with left_col:
-            st.error("⚠️ Please input laboratory parameters before initiating analysis.")
+            st.error("Please insert laboratory text data before analyzing.")
     else:
-        with st.spinner("🔬 Deconstructing biomarkers and computing dietary correlations..."):
+        with st.spinner("Processing biomarkers and matching nutritional indices..."):
 
             # Stage 1: Extract and flag abnormal values (Logic Unchanged)
             extraction_prompt = f"""
@@ -155,6 +173,6 @@ Blood Work Analysis:
             health_summary = full_response
             diet_plan = ""
 
-        # UI Upgrade Render: Beautiful native markdown directly inside our tab system
+        # UI Rendering directly into the clean tabs
         health_placeholder.markdown(health_summary)
         diet_placeholder.markdown(diet_plan if diet_plan else full_response)
