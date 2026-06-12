@@ -9,6 +9,7 @@
 [![Gemini](https://img.shields.io/badge/Gemini_2.5_Flash-AI_Powered-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
 [![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
 
+
 **[🚀 Live Demo](https://blood-work-analyzer-zymu8945cr5keflwt6qjct.streamlit.app/)** · **[📹 Watch Demo Video](https://www.youtube.com/watch?v=mAqlslyxhvk)** ·
 
 ---
@@ -26,11 +27,11 @@
 > **Live App:** [🔗 Click here to try the app](https://blood-work-analyzer-zymu8945cr5keflwt6qjct.streamlit.app/) 
 <div align="center">
 
+
 <!-- Replace the below with your actual demo GIF or video thumbnail + link -->
-[![Demo Video](https://img.shields.io/badge/▶_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube)]((https://www.youtube.com/watch?v=mAqlslyxhvk))
+[![Watch the video walkthrough](https://img.youtube.com/vi/mAqlslyxhvk/maxresdefault.jpg)](https://www.youtube.com/watch?v=mAqlslyxhvk)
 
-*👆 Click to watch a full walkthrough · or replace this badge with a GIF/screenshot*
-
+*👆 Click to watch a full walkthrough ·
 </div>
 
 ---
